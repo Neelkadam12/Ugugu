@@ -1,0 +1,141 @@
+
+-- Custom Animated GUI Script (1000x Better with Animations)
+
+-- Create Screen GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Main Frame (Draggable with Fade-in)
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 400, 0, 400)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -200)
+mainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+mainFrame.BorderSizePixel = 0
+mainFrame.Visible = false
+mainFrame.Parent = screenGui
+mainFrame.Active = true
+mainFrame.Draggable = true
+
+-- Fade-in Animation
+mainFrame.Visible = true
+mainFrame.BackgroundTransparency = 1
+mainFrame:TweenSizeAndPosition(UDim2.new(0, 400, 0, 400), UDim2.new(0.5, -200, 0.5, -200), "Out", "Quad", 0.3, true)
+mainFrame:TweenPosition(UDim2.new(0.5, -200, 0.5, -150), "Out", "Quad", 0.3, true)
+for i = 1, 0, -0.1 do
+    mainFrame.BackgroundTransparency = i
+    wait(0.05)
+end
+
+-- Header
+local header = Instance.new("TextLabel")
+header.Size = UDim2.new(1, 0, 0, 50)
+header.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+header.BorderSizePixel = 0
+header.Text = "✨ 1000x Better GUI ✨"
+header.TextColor3 = Color3.fromRGB(255, 255, 255)
+header.TextSize = 24
+header.Font = Enum.Font.SourceSansBold
+header.Parent = mainFrame
+
+-- Multiplier Input Section
+local multiplierLabel = Instance.new("TextLabel")
+multiplierLabel.Size = UDim2.new(0, 380, 0, 30)
+multiplierLabel.Position = UDim2.new(0, 10, 0, 70)
+multiplierLabel.BackgroundTransparency = 1
+multiplierLabel.Text = "Set Dupe Multiplier (Default: 2)"
+multiplierLabel.TextColor3 = Color3.fromRGB(235, 235, 245)
+multiplierLabel.TextSize = 18
+multiplierLabel.Font = Enum.Font.SourceSans
+multiplierLabel.Parent = mainFrame
+
+local multiplierInput = Instance.new("TextBox")
+multiplierInput.Size = UDim2.new(0, 380, 0, 40)
+multiplierInput.Position = UDim2.new(0, 10, 0, 110)
+multiplierInput.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+multiplierInput.BorderSizePixel = 0
+multiplierInput.Text = "2"
+multiplierInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+multiplierInput.TextSize = 20
+multiplierInput.Font = Enum.Font.SourceSans
+multiplierInput.Parent = mainFrame
+
+-- Item Name Input Section
+local itemNameLabel = Instance.new("TextLabel")
+itemNameLabel.Size = UDim2.new(0, 380, 0, 30)
+itemNameLabel.Position = UDim2.new(0, 10, 0, 170)
+itemNameLabel.BackgroundTransparency = 1
+itemNameLabel.Text = "Item Name for Specific Dupe"
+itemNameLabel.TextColor3 = Color3.fromRGB(235, 235, 245)
+itemNameLabel.TextSize = 18
+itemNameLabel.Font = Enum.Font.SourceSans
+itemNameLabel.Parent = mainFrame
+
+local itemNameInput = Instance.new("TextBox")
+itemNameInput.Size = UDim2.new(0, 380, 0, 40)
+itemNameInput.Position = UDim2.new(0, 10, 0, 210)
+itemNameInput.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+itemNameInput.BorderSizePixel = 0
+itemNameInput.Text = ""
+itemNameInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+itemNameInput.TextSize = 20
+itemNameInput.Font = Enum.Font.SourceSans
+itemNameInput.PlaceholderText = "Enter Item Name"
+itemNameInput.Parent = mainFrame
+
+-- Notification Function with Slide-In Animation
+local function showNotification(content)
+    local notification = Instance.new("TextLabel")
+    notification.Size = UDim2.new(0, 300, 0, 50)
+    notification.Position = UDim2.new(0.5, -150, 0, -60)
+    notification.BackgroundColor3 = Color3.fromRGB(85, 170, 85)
+    notification.BorderSizePixel = 0
+    notification.Text = content
+    notification.TextColor3 = Color3.fromRGB(255, 255, 255)
+    notification.TextSize = 18
+    notification.Font = Enum.Font.SourceSansBold
+    notification.Parent = screenGui
+
+    notification:TweenPosition(UDim2.new(0.5, -150, 0, 10), "Out", "Quad", 0.5, true)
+    wait(2)
+    notification:TweenPosition(UDim2.new(0.5, -150, 0, -60), "Out", "Quad", 0.5, true)
+    wait(0.5)
+    notification:Destroy()
+end
+
+-- Apply Button with Click Animation
+local applyButton = Instance.new("TextButton")
+applyButton.Size = UDim2.new(0, 380, 0, 50)
+applyButton.Position = UDim2.new(0, 10, 0, 270)
+applyButton.BackgroundColor3 = Color3.fromRGB(85, 170, 85)
+applyButton.BorderSizePixel = 0
+applyButton.Text = "Apply Dupe Multiplier"
+applyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+applyButton.TextSize = 20
+applyButton.Font = Enum.Font.SourceSansBold
+applyButton.Parent = mainFrame
+
+applyButton.MouseButton1Click:Connect(function()
+    applyButton:TweenSize(UDim2.new(0, 370, 0, 45), "Out", "Quad", 0.1, true)
+    wait(0.1)
+    applyButton:TweenSize(UDim2.new(0, 380, 0, 50), "Out", "Quad", 0.1, true)
+    
+    local multiplier = tonumber(multiplierInput.Text)
+    local itemName = itemNameInput.Text
+
+    if multiplier and itemName ~= "" then
+        showNotification("Multiplier applied: " .. multiplier .. "x to " .. itemName)
+    else
+        showNotification("Please enter valid multiplier and item name.")
+    end
+end)
+
+-- Credits Label
+local creditsLabel = Instance.new("TextLabel")
+creditsLabel.Size = UDim2.new(0, 380, 0, 30)
+creditsLabel.Position = UDim2.new(0, 10, 0, 330)
+creditsLabel.BackgroundTransparency = 1
+creditsLabel.Text = "Made by: 🔮Vyxrion🔮"
+creditsLabel.TextColor3 = Color3.fromRGB(150, 150, 160)
+creditsLabel.TextSize = 14
+creditsLabel.Font = Enum.Font.SourceSansItalic
+creditsLabel.Parent = mainFrame
